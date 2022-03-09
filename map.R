@@ -1,7 +1,10 @@
 library(tidyverse)
 library(maps)
-library(maproj)
+library(mapproj)
+#library(ggplot2)
+#library(plotly)
 
+setwd("~/_Code/a3-falsinai")
 
 national_incar <- read.csv("https://raw.githubusercontent.com/vera-institute/incarceration-trends/master/incarceration_trends.csv")
 
@@ -16,7 +19,7 @@ map_data <- county_shapes %>%
   left_join(recent_info, by = "fips") %>%
   filter(state == "WA")
 
-blanl_theme <- theme_bw() +
+blank_theme <- theme_bw() +
   theme(
     axis.line = element_blank(),
     axis.text = element_blank(),
@@ -36,4 +39,7 @@ scale_fill_continuous("Female jail Population", limits = c(0, max(map_data$femal
                      na.value = "white", low = "yellow", high = "red" ) +
   ggtitle("Incarcerated Female Across Washington State") +
   theme(plot.title = element_text(size = 15, face = "bold"))
+
+plot(incarceration_map)
+
 
