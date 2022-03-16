@@ -17,29 +17,29 @@ setwd("~/_Code/a3-falsinai")
 incarceration_trends <- read.csv("https://raw.githubusercontent.com/vera-institute/incarceration-trends/master/incarceration_trends.csv")
 view(incarceration_trends)
 
-# Variable: Female Jail Population 
-# What is the most recent average value of female jail population across all counties? 
+# Variable: Latinx Jail Population 
+# What is the most recent average value of Latinx jail population across all counties? 
 recent_average_latinx_pop <- incarceration_trends %>%
   filter(year == max(year, na.rm = T)) %>% 
   summarize(mean_latinx_jail = mean(latinx_jail_pop, na.rm = T))
 
-# From the dataset, extract the year that has the highest female jail population
+# From the dataset, extract the year that has the highest Latinx jail population
 year_highest_latinx_jail_pop <- incarceration_trends %>%
   filter(latinx_jail_pop == max(latinx_jail_pop, na.rm = T)) %>% 
   pull (year)
 
-# From the dataset, extract the state with the highest female jail population 
+# From the dataset, extract the state with the highest Latinx jail population 
 place_highest_latinx_jail_pop <- incarceration_trends %>% 
   filter(latinx_jail_pop == max(latinx_jail_pop, na.rm = T)) %>%
   select(state, county_name)
 
-# What is the total female jail population in Washington in the most recent year?
+# What is the total Latinx jail population in Washington in the most recent year?
 total_wa <- incarceration_trends %>%
   filter(state == "WA") %>%
   filter(year == max(year, na.rm = T)) %>%
   summarize(total_latinx_jail = sum(latinx_jail_pop, na.rm = T))
   
-# What are the top five counties with the highest female jail population 
+# What are the top five counties with the highest Latinx jail population 
 top_5_places <- incarceration_trends %>%
   group_by(county_name) %>% 
   summarize(total_in_each_county = sum(latinx_jail_pop, na.rm = T)) %>% 
@@ -58,7 +58,7 @@ latinx_jail_pop_over_time_in_top_5 <- ggplot(data = top_5_chart) +
     scale_color_discrete("County Name")
   
 # Variable comparison charts
-# Make a data frame for female and male pop
+# Make a data frame for Latinx and White pop
 two_variables_data <- data.frame(incarceration_trends$latinx_jail_pop,
                                  incarceration_trends$white_jail_pop)
 #Graph the two variables
@@ -97,7 +97,7 @@ blank_theme <- theme_bw() +
     panel.grid.minor = element_blank(),
     panel.border = element_blank(),
   )
-# Creating map for female in jail 'female_jail_map'
+# Creating map for Latinx in jail 'Latinx_jail_map'
 latinx_jail_map <- ggplot(merge_map) +
   geom_polygon(
     mapping = aes(x= long, y= lat, group = group, fill = latinx_jail_pop),
